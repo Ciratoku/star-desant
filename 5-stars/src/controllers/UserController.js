@@ -18,6 +18,7 @@ module.exports.CreateUser = async function (req, res) {
 module.exports.GetUser = async function (req, res) {
   const login = req.params.login;
   User.findOne({ login })
+    .populate("tasks")
     .then((u) => {
       if (!u) res.status(404).send({ message: "no such user" });
       res.status(200).send(u);
