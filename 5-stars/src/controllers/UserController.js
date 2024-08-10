@@ -20,7 +20,7 @@ async function GetUser(req, res) {
   User.findOne({ login })
     .populate("tasks")
     .then((u) => {
-      if (!u) res.status(404).send({ message: "no such user" });
+      if (!u) return res.status(404).send({ message: "no such user" });
       res.status(200).send(u);
     })
     .catch((err) => console.log(err));
@@ -34,7 +34,7 @@ async function UpdateUser(req, res) {
       if (!r.modifiedCount)
         return res
           .status(404)
-          .send({ message: `ser with login '${login}' was not updated` });
+          .send({ message: `user with login '${login}' was not updated` });
       res
         .status(200)
         .send({ message: `user with login '${login}' was updated` });
@@ -48,12 +48,12 @@ async function DeleteUser(req, res) {
   User.deleteOne({ login })
     .then((r) => {
       if (!r.deletedCount)
-        return res
-          .status(404)
-          .send({ message: `user with login '${login}' was not deleted` });
+        return res.status(404).send({
+          message: `user with login '${login}' had been already deleted or doesn't exist`,
+        });
       res
-        .status(302)
-        .send({ message: `user with login '${login}' was deleted` });
+        .status(200)
+        .send({ message: `user with login '${login}' have been deleted` });
     })
     .catch((err) => console.log(err));
 }
