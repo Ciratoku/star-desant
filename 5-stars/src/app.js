@@ -1,13 +1,13 @@
-import express from "express";
-import bodyParser from "body-parser";
-import routes from "./routes/routes.js";
+const express = require("express");
+const bodyParser = require("body-parser");
+const router = require("./routes/routes.js");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/", routes);
+app.use("/", router);
 
 app.listen(PORT, () => {
   console.log(`Servers running on ${PORT} port`);
