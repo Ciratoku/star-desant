@@ -1,14 +1,14 @@
-const Task = require("../models/TaskSchema.js");
-const db = require("../db.js");
+import db from "../db.js";
+import Task from "../models/TaskSchema.js";
 
 // create new Task
-module.exports.CreateTask = async function (req, res) {
+async function CreateTask(req, res) {
   const newTask = new Task(req.body);
   await newTask.save();
   res.status(201).send(newTask);
-};
+}
 // get Task
-module.exports.GetTask = async function (req, res) {
+async function GetTask(req, res) {
   const id = req.params.id;
   Task.findById(id)
     .then((u) => {
@@ -16,9 +16,9 @@ module.exports.GetTask = async function (req, res) {
       res.status(200).send(u);
     })
     .catch((err) => console.log(err));
-};
+}
 // update Task
-module.exports.UpdateTask = async function (req, res) {
+async function UpdateTask(req, res) {
   const id = req.params.id;
   const body = req.body;
   Task.updateOne({ _id: id, ...body })
@@ -30,10 +30,10 @@ module.exports.UpdateTask = async function (req, res) {
       res.status(200).send({ message: `Task with id '${id}' was updated` });
     })
     .catch((err) => console.log(err));
-};
+}
 
 // delete Task
-module.exports.DeleteTask = async function (req, res) {
+async function DeleteTask(req, res) {
   const id = req.params.id;
   Task.deleteOne({ _id: id })
     .then((r) => {
@@ -44,4 +44,5 @@ module.exports.DeleteTask = async function (req, res) {
       res.status(302).send({ message: `Task with id '${id}' was deleted` });
     })
     .catch((err) => console.log(err));
-};
+}
+export const TaskController = { DeleteTask, UpdateTask, GetTask, CreateTask };

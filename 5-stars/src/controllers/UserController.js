@@ -1,8 +1,8 @@
-const User = require("../models/UserSchema.js");
-const db = require("../db.js");
+import db from "../db.js";
+import User from "../models/UserSchema.js";
 
 // create new user
-module.exports.CreateUser = async function (req, res) {
+async function CreateUser(req, res) {
   const body = req.body;
   // check if already exists
   const user = await User.findOne({ login: body.login }).exec();
@@ -13,9 +13,9 @@ module.exports.CreateUser = async function (req, res) {
   const newUser = new User(body);
   await newUser.save();
   res.status(201).send(newUser);
-};
+}
 // get user
-module.exports.GetUser = async function (req, res) {
+async function GetUser(req, res) {
   const login = req.params.login;
   User.findOne({ login })
     .populate("tasks")
@@ -24,9 +24,9 @@ module.exports.GetUser = async function (req, res) {
       res.status(200).send(u);
     })
     .catch((err) => console.log(err));
-};
+}
 // update user
-module.exports.UpdateUser = async function (req, res) {
+async function UpdateUser(req, res) {
   const login = req.params.login;
   const body = req.body;
   User.updateOne({ login, ...body })
@@ -40,10 +40,10 @@ module.exports.UpdateUser = async function (req, res) {
         .send({ message: `user with login '${login}' was updated` });
     })
     .catch((err) => console.log(err));
-};
+}
 
 // delete user
-module.exports.DeleteUser = async function (req, res) {
+async function DeleteUser(req, res) {
   const login = req.params.login;
   User.deleteOne({ login })
     .then((r) => {
@@ -56,4 +56,5 @@ module.exports.DeleteUser = async function (req, res) {
         .send({ message: `user with login '${login}' was deleted` });
     })
     .catch((err) => console.log(err));
-};
+}
+export const UserController = { DeleteUser, UpdateUser, GetUser, CreateUser };

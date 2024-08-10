@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
+import { UserController } from "../controllers/UserController.js";
+import { TaskController } from "../controllers/TaskController.js";
 
-const UserController = require("../controllers/UserController.js");
-const TaskController = require("../controllers/TaskController.js");
 // Task
 router.post("/tasks", TaskController.CreateTask);
 router.get("/tasks/:id", TaskController.GetTask);
@@ -14,4 +14,4 @@ router.get("/users/:login", UserController.GetUser);
 router.delete("/users/:login", UserController.DeleteUser);
 router.put("/users/:login", UserController.UpdateUser);
 
-module.exports = router;
+export default router;

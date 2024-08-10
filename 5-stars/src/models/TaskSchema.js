@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
 
-const TaskSchema = new Schema({
+const taskSchema = new Schema({
   text: String,
 });
 
-module.exports = mongoose.model("Task", TaskSchema);
+const Task = mongoose.model("Task", taskSchema);
+export const TaskSchema = Task.schema;
+export default Task;
