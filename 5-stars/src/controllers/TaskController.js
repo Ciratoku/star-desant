@@ -12,7 +12,7 @@ async function GetTask(req, res) {
   const id = req.params.id;
   Task.findById(id)
     .then((u) => {
-      if (!u) res.status(404).send({ message: "no such Task" });
+      if (!u) return res.status(404).send({ message: "no such Task" });
       res.status(200).send(u);
     })
     .catch((err) => console.log(err));
@@ -38,10 +38,12 @@ async function DeleteTask(req, res) {
   Task.deleteOne({ _id: id })
     .then((r) => {
       if (!r.deletedCount)
-        return res
-          .status(404)
-          .send({ message: `Task with id '${id}' was not deleted` });
-      res.status(302).send({ message: `Task with id '${id}' was deleted` });
+        return res.status(404).send({
+          message: `Task with id '${id}' had been already deleted or doesn't exist`,
+        });
+      res
+        .status(200)
+        .send({ message: `Task with id '${id}' have been deleted` });
     })
     .catch((err) => console.log(err));
 }
