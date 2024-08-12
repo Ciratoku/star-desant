@@ -1,4 +1,4 @@
-import { Stack, Button, CircularProgress } from "@mui/material";
+import { Stack, Button, CircularProgress, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import useSelect from "../hooks/useSelect";
 import Selector from "./Selector";
@@ -33,31 +33,35 @@ function Converter() {
       });
   };
   return isCurLoaded ? (
-    <Stack
-      direction="row"
-      spacing={4}
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Selector
-        label="from"
-        currencies={currencies}
-        select={selectFrom}
-        input={{
-          value: inputFrom,
-          onChange: (e) => setInputFrom(e.target.value),
-        }}
-      />
-      <Selector
-        label="to"
-        currencies={currencies}
-        select={selectTo}
-        input={{ value: inputTo, onChange: (e) => setInputTo(e.target.value) }}
-      />
-      <Button variant="outlined" onClick={handleConvert}>
-        Convert
-      </Button>
-    </Stack>
+    <Grid container spacing={2}>
+      <Grid item>
+        <Selector
+          label="from"
+          currencies={currencies}
+          select={selectFrom}
+          input={{
+            value: inputFrom,
+            onChange: (e) => setInputFrom(e.target.value),
+          }}
+        />
+      </Grid>
+      <Grid item>
+        <Selector
+          label="to"
+          currencies={currencies}
+          select={selectTo}
+          input={{
+            value: inputTo,
+            onChange: (e) => setInputTo(e.target.value),
+          }}
+        />
+      </Grid>
+      <Grid item>
+        <Button variant="outlined" onClick={handleConvert}>
+          Convert
+        </Button>
+      </Grid>
+    </Grid>
   ) : (
     <CircularProgress />
   );
